@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Train Scheduler</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+	<div class="jumbotron" style="background-color: #20315A ; color: white;">
+		<h1 class="text-center"><strong>Train Scheduler</strong></h1>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12">
+			<br>
+			<!-- First panel is for displaying the current train schedule -->
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"><strong>Current Train Schedule</strong></h3>
+				</div>
+				<!-- Where train info will go -->
+				<div class="panel-body"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<br>
+			<!-- Second panel is for handling the train search parameters -->
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"><strong>Add Train</strong></h3>
+				</div>
+				<div class="panel-body">
+
+					<!-- HTML Form for handling the inputs-->
+					<form role="form">
+
+						<!-- Train Name-->
+						<div class="form-group">
+							<label for="search">Train Name</label>
+							<input type="text" class="form-control" id="search-train">
+						</div>
+
+						<!-- Train Destination  -->
+						<div class="form-group">
+							<label for="destination">Destination</label>
+							<input type="text" class="form-control" id="destination">
+						</div>
+
+						<!-- First Train Time -->
+						<div class="form-group">
+							<label for="train-time">First Train Time (HH:mm - military time)</label>
+							<input type="text" class="form-control" id="train-time">
+						</div>
+
+						<!-- Train Frequency -->
+						<div class="form-group">
+							<label for="train-frequency">Frequency (min)</label>
+							<input type="text" class="form-control" id="train-frequency">
+						</div>
+
+						<!-- Submit button -->
+						<button type="submit" class="btn btn-default" id="run-search">Search</button>
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <!-- Footer Region -->
+    <div class="row">
+    	<div class="col-sm-12">
+
+			<!-- Line Break followed by closing -->
+			<hr>
+			<h5 class="text-center"><small>Made by Bryce</small></h5>
+
+		</div>
+	</div>
+
+</div>
+
+<!-- jQuery JS -->
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<!-- Code to the JavaScript File -->
+<script src="train.js"></script>
+
+</body>
+</html>
