@@ -24,7 +24,7 @@ $("#add-train-btn").on("click", function(event) {
 	// Get values of user input (include moment.js for date value)
 	name = $("#name").val().trim();
 	destination = $("#destination").val().trim();
-	nextArrival = moment($("#arrival").val().trim(), "HH:mm").format("X");
+	nextArrival = moment($("#arrival").val().trim(), "hh:mm A").format("X");
 	frequency = $("#frequency").val().trim();
 
 	// Create object for combined user input
@@ -49,17 +49,43 @@ database.ref().on("child_added", function(snapshot) {
 	// Store everything into a variable.
 	var trainName = snapshot.val().name;
 	var trainDestination = snapshot.val().destination;
-	var trainArrival = moment.unix(snapshot.val().nextArrival).format("HH:mm A");
+	var trainArrivalUnix = snapshot.val().nextArrival;
+	var trainArrival = moment.unix(trainArrivalUnix).format("hh:mm A");
 	var trainFrequency = snapshot.val().frequency;
 
 	console.log(trainName);
 	console.log(trainDestination);
 	console.log(trainArrival);
 	console.log(trainFrequency);
-
-	var nextTrainMinutes = moment().diff(moment.unix(snapshot.val().nextArrival, "X"), "minutes");
-	console.log(nextTrainMinutes);
-
+	
+	var nextTrainMinutes = moment().diff(moment.unix(trainArrivalUnix, "X"), "minutes");
+	if (nextTrainMinutes < 0) {
+		nextTrainMinutes = nextTrainMinutes *-1;
+	}
+	
+	// Add data to table
 	$("#train-listings").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + trainFrequency +
 								"</td><td>" + trainArrival + "</td><td>" + nextTrainMinutes + "</td></tr>");
 });
+
+// Update nextTrainMinutes every minute
+var timeInterval;
+
+function interval() {
+	timeInterval = setInterval(checkTime, 1000);
+};
+
+function checkTime() {
+		var now = moment().seconds();
+		if (now === 0) {
+			refresh();
+		}
+};
+
+function refresh() {
+	// Missing code goes here...
+};
+
+interval();
+
+
