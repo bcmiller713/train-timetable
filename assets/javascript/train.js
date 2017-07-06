@@ -24,7 +24,7 @@ $("#add-train-btn").on("click", function(event) {
 	// Get values of user input (include moment.js for date value)
 	name = $("#name").val().trim();
 	destination = $("#destination").val().trim();
-	nextArrival = moment($("#arrival").val().trim(), "hh:mm A").format("X");
+	nextArrival = moment($("#arrival").val().trim(), "HH:mm").subtract(10, "years").format("X");
 	frequency = $("#frequency").val().trim();
 
 	// Create object for combined user input
@@ -46,46 +46,16 @@ $("#add-train-btn").on("click", function(event) {
 });
 
 database.ref().on("child_added", function(snapshot) {
-	// Store everything into a variable.
+	// When data is added to firebase, save data into variables...
 	var trainName = snapshot.val().name;
 	var trainDestination = snapshot.val().destination;
 	var trainArrivalUnix = snapshot.val().nextArrival;
-	var trainArrival = moment.unix(trainArrivalUnix).format("hh:mm A");
 	var trainFrequency = snapshot.val().frequency;
+	var remainder = moment().diff(moment.unix(trainArrivalUnix), "minutes")%trainFrequency;
+	var minutes = trainFrequency - remainder;
+	var arrival = moment().add(minutes, "m").format("hh:mm A");
 
-	console.log(trainName);
-	console.log(trainDestination);
-	console.log(trainArrival);
-	console.log(trainFrequency);
-	
-	var nextTrainMinutes = moment().diff(moment.unix(trainArrivalUnix, "X"), "minutes");
-	if (nextTrainMinutes < 0) {
-		nextTrainMinutes = nextTrainMinutes *-1;
-	}
-	
-	// Add data to table
+	// And add data to table
 	$("#train-listings").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + trainFrequency +
-								"</td><td>" + trainArrival + "</td><td>" + nextTrainMinutes + "</td></tr>");
+								"</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
 });
-
-// Update nextTrainMinutes every minute
-var timeInterval;
-
-function interval() {
-	timeInterval = setInterval(checkTime, 1000);
-};
-
-function checkTime() {
-		var now = moment().seconds();
-		if (now === 0) {
-			refresh();
-		}
-};
-
-function refresh() {
-	// Missing code goes here...
-};
-
-interval();
-
-
